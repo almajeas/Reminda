@@ -4,5 +4,11 @@
     <string name="app_name">Reminda</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    <string name="no_todo_message">Start adding ToDos by clicking the add button</string>
+    <string name="add_todo">Add ToDo</string>
+    <string name="todo_title">Title</string>
+    <string name="todo_message">Message</string>
+    <string name="todo_date">Date</string>
+    <string name="todo_time">Time</string>
 
 </resources>
