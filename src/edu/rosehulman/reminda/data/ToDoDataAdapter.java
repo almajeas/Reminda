@@ -6,6 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import edu.rosehulman.reminda.entities.ToDo;
 
 public class ToDoDataAdapter {
@@ -79,6 +82,5 @@ public class ToDoDataAdapter {
 		String where = DBHelper.KEY_ID + " = " + id;
 		return mDB.delete(DBHelper.TABLE_NAME, where, null) > 0;
 	}
-
 	
 }

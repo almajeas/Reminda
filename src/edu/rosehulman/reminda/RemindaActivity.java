@@ -30,16 +30,16 @@ public class RemindaActivity extends Activity {
 
         mActionBar.addTab(mActionBar.newTab()
                 .setText("StopWatch")
-                .setTabListener(new TabListener<StopWatchActivity>(
-                        this, "StopWatch", StopWatchActivity.class)));
+                .setTabListener(new TabListener<StopWatchFragment>(
+                        this, "StopWatch", StopWatchFragment.class)));
         mActionBar.addTab(mActionBar.newTab()
                 .setText("ToDo")
-                .setTabListener(new TabListener<ToDoActivity>(
-                        this, "ToDo", ToDoActivity.class)));
+                .setTabListener(new TabListener<ToDoFragment>(
+                        this, "ToDo", ToDoFragment.class)));
         mActionBar.addTab(mActionBar.newTab()
                 .setText("Timer")
-                .setTabListener(new TabListener<TimerActivity>(
-                        this, "Timer", TimerActivity.class)));
+                .setTabListener(new TabListener<TimerFragment>(
+                        this, "Timer", TimerFragment.class)));
       
         if (savedInstanceState != null) {
             mActionBar.setSelectedNavigationItem(savedInstanceState.getInt("tab", 0));
@@ -58,7 +58,7 @@ public class RemindaActivity extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// Request code will tell you which activity is returning with a result
 		Log.d(TAG, "onResult is called");
-    	if (requestCode == ToDoActivity.REQUEST_CODE_CREATE_TODO && resultCode == RESULT_OK) {
+    	if (requestCode == ToDoFragment.REQUEST_CODE_CREATE_TODO && resultCode == RESULT_OK) {
 			mActionBar.setSelectedNavigationItem(TODO);
 		} else {
 			Log.d("", "Didn't exit OK");

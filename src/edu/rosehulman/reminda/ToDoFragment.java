@@ -5,19 +5,22 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
-import android.widget.Toast;
 import edu.rosehulman.reminda.data.DBHelper;
 import edu.rosehulman.reminda.data.ToDoDataAdapter;
 import edu.rosehulman.reminda.entities.ToDo;
 
-public class ToDoActivity extends ListFragment implements OnClickListener {
+public class ToDoFragment extends ListFragment implements OnClickListener {
 
 	private Button mAddToDoButton;
 
@@ -26,6 +29,10 @@ public class ToDoActivity extends ListFragment implements OnClickListener {
 	
 	protected static final int REQUEST_CODE_CREATE_TODO = 1;
 	protected static final int REQUEST_CODE_EDIT_TODO = 2;
+	
+	private static final int EDIT = 1;
+	private static final int DELETE = 2;
+	
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,10 +50,21 @@ public class ToDoActivity extends ListFragment implements OnClickListener {
 		 int[] toTextViews = { R.id.todo_title, R.id.todo_message, R.id.todo_date, R.id.todo_time};
 		 
 		mCursorAdapter = new SimpleCursorAdapter(inflater.getContext(), R.layout.todo_list_item, cursor, fromColumns, toTextViews );
-		
 		setListAdapter(mCursorAdapter);
+		
 		return v;
 	}
+	
+	
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onActivityCreated(savedInstanceState);
+		registerForContextMenu(getListView());
+	}
+
+
 
 	@Override
 	public void onClick(View v) {
@@ -54,7 +72,15 @@ public class ToDoActivity extends ListFragment implements OnClickListener {
 			Intent createToDo = new Intent(getActivity(), CreateToDoActivity.class);
 			this.startActivityForResult(createToDo, REQUEST_CODE_CREATE_TODO);
 		}
-
+	}
+	
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, v, menuInfo);
+		menu.setHeaderTitle("Options");
+		menu.add(0, DELETE, 0, "Delete");
+		menu.add(0, EDIT, 0, "Edit");
 	}
 	
 	@Override
@@ -62,6 +88,30 @@ public class ToDoActivity extends ListFragment implements OnClickListener {
 		Intent editIntent = new Intent(getActivity(), EditToDoActivity.class);
 		editIntent.putExtra(DBHelper.KEY_ID, id);
 		this.startActivityForResult(editIntent, REQUEST_CODE_EDIT_TODO);
+	}
+	
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
+				.getMenuInfo();
+		int pos = info.position;
+		long id = info.id;
+//		ToDo todo = (ToDo) getListView().getItemAtPosition(
+//				info.position);
+		Log.d(RemindaActivity.TAG, "selected Item id: " + id);
+		Log.d(RemindaActivity.TAG, "selected Item pos: " + pos);
+		if (item.getItemId() == DELETE) {
+			mToDoDataAdapter.open();
+			mToDoDataAdapter.removeToDo(id);
+			mToDoDataAdapter.close();
+			
+		}else if(item.getItemId() == EDIT){
+			Intent editIntent = new Intent(getActivity(), EditToDoActivity.class);
+			editIntent.putExtra(DBHelper.KEY_ID, id);
+			this.startActivityForResult(editIntent, REQUEST_CODE_EDIT_TODO);	
+		}
+		mCursorAdapter.notifyDataSetChanged();
+		return super.onContextItemSelected(item);
 	}
 	
 
