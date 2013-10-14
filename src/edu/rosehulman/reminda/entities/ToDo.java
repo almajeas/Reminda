@@ -1,17 +1,36 @@
 package edu.rosehulman.reminda.entities;
 
+import java.util.Date;
+
+import android.widget.DatePicker;
+import android.widget.TimePicker;
+
 public class ToDo {
 	private String mTitle;
 	private long mId;
 	private String mMessage;
-	private long mDate;
-	private long mTime;
+	private long mDate; //days since jan1 1970
+	private long mTime; //min since midnight
 	
 	public ToDo(String title, String message, long date, long time) {
 		mTitle = title;
 		mMessage = message;
 		mDate = date;
 		mTime = time;
+	}
+	
+	public ToDo(String title, String message, DatePicker date, TimePicker time) {
+		mTitle = title;
+		mMessage = message;
+		mDate = 0;
+		mTime = 0;
+		//setDateToLong(date, time);
+	}
+
+
+	private void setDateToLong(DatePicker date, TimePicker time) {
+		Date newDate;
+		
 	}
 
 	public ToDo() {
