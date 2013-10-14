@@ -36,7 +36,7 @@ public class DBHelper extends SQLiteOpenHelper {
 		sb.append("CREATE TABLE " + TABLE_NAME + "(");
 		sb.append(KEY_ID + " integer primary key autoincrement, ");
 		sb.append(KEY_TITLE + " text, ");
-		sb.append(KEY_MESSAGE + "text, ");
+		sb.append(KEY_MESSAGE + " text, ");
 		sb.append(KEY_DATE + " long, ");
 		sb.append(KEY_TIME + " long");
 		sb.append(")");
