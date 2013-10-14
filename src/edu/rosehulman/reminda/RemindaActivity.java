@@ -5,7 +5,9 @@ import android.app.ActionBar.Tab;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 /**
@@ -13,28 +15,36 @@ import android.widget.Toast;
  * with other action bar features.
  */
 public class RemindaActivity extends Activity {
+	
+	public static String TAG = "REMINA";
+	public static final int STOPWATCH = 0;
+	public static final int TODO = 1;
+	public static final int TIMER = 2;
+	private ActionBar mActionBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        final ActionBar bar = getActionBar();
-        bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        bar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE);
+        mActionBar = getActionBar();
+        mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        mActionBar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE);
 
-        bar.addTab(bar.newTab()
+        mActionBar.addTab(mActionBar.newTab()
                 .setText("StopWatch")
                 .setTabListener(new TabListener<StopWatchActivity>(
                         this, "StopWatch", StopWatchActivity.class)));
-        bar.addTab(bar.newTab()
+        mActionBar.addTab(mActionBar.newTab()
                 .setText("ToDo")
                 .setTabListener(new TabListener<ToDoActivity>(
                         this, "ToDo", ToDoActivity.class)));
-        bar.addTab(bar.newTab()
+        mActionBar.addTab(mActionBar.newTab()
                 .setText("Timer")
                 .setTabListener(new TabListener<TimerActivity>(
                         this, "Timer", TimerActivity.class)));
       
         if (savedInstanceState != null) {
-            bar.setSelectedNavigationItem(savedInstanceState.getInt("tab", 0));
+            mActionBar.setSelectedNavigationItem(savedInstanceState.getInt("tab", 0));
+        }else{
+        	mActionBar.setSelectedNavigationItem(TODO);
         }
     }
 
@@ -43,6 +53,17 @@ public class RemindaActivity extends Activity {
         super.onSaveInstanceState(outState);
         outState.putInt("tab", getActionBar().getSelectedNavigationIndex());
     }
+    
+    @Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// Request code will tell you which activity is returning with a result
+		Log.d(TAG, "onResult is called");
+    	if (requestCode == ToDoActivity.REQUEST_CODE_CREATE_TODO && resultCode == RESULT_OK) {
+			mActionBar.setSelectedNavigationItem(TODO);
+		} else {
+			Log.d("", "Didn't exit OK");
+		}
+	}
 
     public static class TabListener<T extends Fragment> implements ActionBar.TabListener {
         private final Activity mActivity;

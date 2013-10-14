@@ -4,22 +4,29 @@ import android.app.ListFragment;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 import edu.rosehulman.reminda.data.DBHelper;
 import edu.rosehulman.reminda.data.ToDoDataAdapter;
+import edu.rosehulman.reminda.entities.ToDo;
 
 public class ToDoActivity extends ListFragment implements OnClickListener {
 
 	private Button mAddToDoButton;
+
 	private ToDoDataAdapter mToDoDataAdapter;
 	private SimpleCursorAdapter mCursorAdapter;
-
+	
+	protected static final int REQUEST_CODE_CREATE_TODO = 1;
+	protected static final int REQUEST_CODE_EDIT_TODO = 2;
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -28,7 +35,7 @@ public class ToDoActivity extends ListFragment implements OnClickListener {
 		mAddToDoButton.setOnClickListener(this);
 		
 		mToDoDataAdapter = new ToDoDataAdapter(getActivity());
-		 mToDoDataAdapter.open();
+		mToDoDataAdapter.open();
 		
 		 Cursor cursor = mToDoDataAdapter.getToDoCursor();
 		 String[] fromColumns = new String[] { DBHelper.KEY_TITLE,
@@ -45,9 +52,17 @@ public class ToDoActivity extends ListFragment implements OnClickListener {
 	public void onClick(View v) {
 		if (mAddToDoButton.getId() == v.getId()) {
 			Intent createToDo = new Intent(getActivity(), CreateToDoActivity.class);
-			startActivity(createToDo);
+			this.startActivityForResult(createToDo, REQUEST_CODE_CREATE_TODO);
 		}
 
 	}
+	
+	@Override
+	public void onListItemClick(ListView l, View v, int position, long id) {
+		Intent editIntent = new Intent(getActivity(), EditToDoActivity.class);
+		editIntent.putExtra(DBHelper.KEY_ID, id);
+		this.startActivityForResult(editIntent, REQUEST_CODE_EDIT_TODO);
+	}
+	
 
 }
