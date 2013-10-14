@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -32,15 +33,17 @@ public class EditToDoActivity extends Activity implements OnClickListener {
 		setContentView(R.layout.activity_todo_create);
 		ToDoDataAdapter adapter = new ToDoDataAdapter(this);
 		adapter.open();
-		ToDo todo = adapter.getToDo(getIntent().getIntExtra(DBHelper.KEY_ID, -1));
+		Log.d(RemindaActivity.TAG, "id is " + getIntent().getLongExtra(DBHelper.KEY_ID, -1));
+		ToDo todo = adapter.getToDo(getIntent().getLongExtra(DBHelper.KEY_ID, -1));
 		mName = (EditText) findViewById(R.id.name_edit_text);
 		mName.setText(todo.getTitle());
 		mMessage = (EditText) findViewById(R.id.message_edit_text);
 		mMessage.setText(todo.getMessage());
 		mDate = (DatePicker) findViewById(R.id.date_picker);
-		mDate = this.getDatePicker1(todo);
+		mDate.updateDate(this.getDatePicker1(todo).getYear(), this.getDatePicker1(todo).getMonth(), this.getDatePicker1(todo).getDayOfMonth());
 		mTime = (TimePicker) findViewById(R.id.time_picker);
-		mTime = this.getTimePicker(todo);
+		mTime.setCurrentHour(this.getTimePicker(todo).getCurrentHour());
+		mTime.setCurrentMinute(this.getTimePicker(todo).getCurrentMinute());
 
 		((Button) findViewById(R.id.create)).setOnClickListener(this);
 		((Button) findViewById(R.id.create)).setText("Save");
@@ -69,7 +72,7 @@ public class EditToDoActivity extends Activity implements OnClickListener {
 	}
 
 	private void cancelCreateToDo() {
-
+		this.finish();
 	}
 
 	private boolean createToDo() {
@@ -79,6 +82,7 @@ public class EditToDoActivity extends Activity implements OnClickListener {
 		}
 		ToDo todo = new ToDo(mName.getText().toString(), mMessage.getText()
 				.toString(), mDate, mTime);
+		todo.setId(getIntent().getLongExtra(DBHelper.KEY_ID, -1));
 		ToDoDataAdapter toDoDataAdapter = new ToDoDataAdapter(this);
 		toDoDataAdapter.open();
 		toDoDataAdapter.updateToDo(todo);

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 import edu.rosehulman.reminda.entities.ToDo;
 
 public class ToDoDataAdapter {
@@ -47,18 +48,21 @@ public class ToDoDataAdapter {
 	public ToDo getToDo(long id){
 		String[] projection = new String[] { DBHelper.KEY_ID, DBHelper.KEY_TITLE, DBHelper.KEY_MESSAGE, DBHelper.KEY_DATE, DBHelper.KEY_TIME };
 		String selection = DBHelper.KEY_ID + " = " + id;
+		this.open();
 		Cursor c = mDB.query(DBHelper.TABLE_NAME, projection, selection, null, null,
 				null, null, null);
 		if(c != null && c.moveToFirst()){
 			ToDo todo = new ToDo();
 			todo.setId(c.getLong(c.getColumnIndexOrThrow(DBHelper.KEY_ID)));
+			Log.d("REMINDA", "" + todo.getId());
 			todo.setTitle(c.getString(c.getColumnIndexOrThrow(DBHelper.KEY_TITLE)));
 			todo.setMessage(c.getString(c.getColumnIndexOrThrow(DBHelper.KEY_MESSAGE)));
 			todo.setDate(c.getLong(c.getColumnIndexOrThrow(DBHelper.KEY_DATE)));
 			todo.setTime(c.getLong(c.getColumnIndexOrThrow(DBHelper.KEY_TIME)));
-			
+			this.close();
 			return todo;
 		}
+		Log.d("REMINDA", "NULL");
 		return null;
 	}
 	

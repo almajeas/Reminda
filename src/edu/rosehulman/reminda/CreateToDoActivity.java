@@ -59,7 +59,7 @@ public class CreateToDoActivity extends Activity implements OnClickListener {
 	}
 
 	private void cancelCreateToDo() {
-
+		this.finish();
 	}
 
 	private boolean createToDo() {
