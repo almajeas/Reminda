@@ -10,5 +10,11 @@
     <string name="todo_message">Message</string>
     <string name="todo_date">Date</string>
     <string name="todo_time">Time</string>
+    <string name="name">Name</string>
+    <string name="message">Message</string>
+    <string name="create_todo">Create ToDo</string>
+    <string name="create">Create</string>
+    <string name="cancel">Cancel</string>
+    <string name="warning_empty_name">Name can not be empty</string>
 
 </resources>

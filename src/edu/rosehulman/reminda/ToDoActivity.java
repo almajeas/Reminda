@@ -1,6 +1,7 @@
 package edu.rosehulman.reminda;
 
 import android.app.ListFragment;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -25,26 +26,26 @@ public class ToDoActivity extends ListFragment implements OnClickListener {
 		View v = inflater.inflate(R.layout.activity_todo, container, false);
 		mAddToDoButton = (Button) v.findViewById(R.id.addToDoButton);
 		mAddToDoButton.setOnClickListener(this);
-
+		
 		mToDoDataAdapter = new ToDoDataAdapter(getActivity());
-		mToDoDataAdapter.open();
-
-		Cursor cursor = mToDoDataAdapter.getToDoCursor();
-		String[] fromColumns = new String[] { DBHelper.KEY_TITLE,
-				DBHelper.KEY_MESSAGE };
-		int[] toTextViews = { R.id.todo_title_id, R.id.todo_message_id };
-		mCursorAdapter = new SimpleCursorAdapter(getActivity(),
-				R.layout.activity_todo, cursor, fromColumns, toTextViews);
+		 mToDoDataAdapter.open();
+		
+		 Cursor cursor = mToDoDataAdapter.getToDoCursor();
+		 String[] fromColumns = new String[] { DBHelper.KEY_TITLE,
+				 DBHelper.KEY_MESSAGE , DBHelper.KEY_DATE, DBHelper.KEY_TIME};
+		 int[] toTextViews = { R.id.todo_title, R.id.todo_message, R.id.todo_date, R.id.todo_time};
+		 
+		mCursorAdapter = new SimpleCursorAdapter(inflater.getContext(), R.layout.todo_list_item, cursor, fromColumns, toTextViews );
+		
 		setListAdapter(mCursorAdapter);
-		registerForContextMenu(getListView());
 		return v;
 	}
 
 	@Override
 	public void onClick(View v) {
 		if (mAddToDoButton.getId() == v.getId()) {
-			Toast.makeText(getActivity(), "Clicked add TODO",
-					Toast.LENGTH_SHORT).show();
+			Intent createToDo = new Intent(getActivity(), CreateToDoActivity.class);
+			startActivity(createToDo);
 		}
 
 	}

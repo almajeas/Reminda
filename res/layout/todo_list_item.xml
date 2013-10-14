@@ -7,7 +7,7 @@
 	android:layout_margin="10dp">
 	<TextView
 		android:text="@string/todo_title"
-		android:id="@+id/todo_title_id"
+		android:id="@+id/todo_title"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_weight="1"
@@ -17,7 +17,25 @@
 		android:paddingTop="5dp"></TextView>
 	<TextView
 		android:text="@string/todo_message"
-		android:id="@+id/todo_message_id"
+		android:id="@+id/todo_message"
+		android:gravity="center"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:textSize="22sp"
+		android:paddingRight="10dp"></TextView>
+	
+	<TextView
+		android:text="@string/todo_date"
+		android:id="@+id/todo_date"
+		android:gravity="center"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:textSize="22sp"
+		android:paddingRight="10dp"></TextView>
+	
+	<TextView
+		android:text="@string/todo_time"
+		android:id="@+id/todo_time"
 		android:gravity="center"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
