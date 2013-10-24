@@ -54,16 +54,7 @@ public class RemindaActivity extends Activity {
         outState.putInt("tab", getActionBar().getSelectedNavigationIndex());
     }
     
-    @Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// Request code will tell you which activity is returning with a result
-		Log.d(TAG, "onResult is called");
-    	if (requestCode == ToDoFragment.REQUEST_CODE_CREATE_TODO && resultCode == RESULT_OK) {
-			mActionBar.setSelectedNavigationItem(TODO);
-		} else {
-			Log.d("", "Didn't exit OK");
-		}
-	}
+   
 
     public static class TabListener<T extends Fragment> implements ActionBar.TabListener {
         private final Activity mActivity;

@@ -1,7 +1,11 @@
 package edu.rosehulman.reminda.entities;
 
+import java.sql.Time;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
+import android.text.format.DateFormat;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 
@@ -36,6 +40,17 @@ public class ToDo {
 		newDate = new GregorianCalendar(0, 0, 0, time.getCurrentHour(),
 				time.getCurrentMinute());
 		mTime = newDate.getTimeInMillis();
+	}
+	
+	public String getStringDate(){
+		Date date = new Date(this.getDate());
+		SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
+		return f.format(date);
+	}
+	
+	public String getStringTime(){
+		Time t = new Time(this.getTime());
+		return t.toString();
 	}
 
 	public String getTitle() {

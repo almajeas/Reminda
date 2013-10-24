@@ -1,14 +1,13 @@
 package edu.rosehulman.reminda.data;
 
+import java.util.ArrayList;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import edu.rosehulman.reminda.entities.ToDo;
 
 public class ToDoDataAdapter {
@@ -44,6 +43,7 @@ public class ToDoDataAdapter {
 	}
 	
 	public Cursor getToDoCursor(){
+		this.open();
 		String[] projection = new String[] { DBHelper.KEY_ID, DBHelper.KEY_TITLE, DBHelper.KEY_MESSAGE, DBHelper.KEY_DATE, DBHelper.KEY_TIME };
 		return mDB.query(DBHelper.TABLE_NAME, projection, null, null, null, null, DBHelper.KEY_ID + " ASC");
 	}
@@ -68,6 +68,30 @@ public class ToDoDataAdapter {
 		Log.d("REMINDA", "NULL");
 		return null;
 	}
+	
+	public ArrayList<ToDo> getAllToDos(){
+		ArrayList<ToDo> todos = new ArrayList<ToDo>();
+		String[] projection = new String[] { DBHelper.KEY_ID, DBHelper.KEY_TITLE, DBHelper.KEY_MESSAGE, DBHelper.KEY_DATE, DBHelper.KEY_TIME };
+		this.open();
+		Cursor c = mDB.query(DBHelper.TABLE_NAME, projection, null, null, null,
+				null, null, null);
+		if(c != null && c.moveToFirst()){
+			int count = c.getCount();
+			for(int i=0 ; i< count; i++){
+				ToDo todo = new ToDo();
+				todo.setId(c.getLong(c.getColumnIndexOrThrow(DBHelper.KEY_ID)));
+				todo.setTitle(c.getString(c.getColumnIndexOrThrow(DBHelper.KEY_TITLE)));
+				todo.setMessage(c.getString(c.getColumnIndexOrThrow(DBHelper.KEY_MESSAGE)));
+				todo.setDate(c.getLong(c.getColumnIndexOrThrow(DBHelper.KEY_DATE)));
+				todo.setTime(c.getLong(c.getColumnIndexOrThrow(DBHelper.KEY_TIME)));
+				todos.add(todo);
+				c.moveToNext();
+			}
+		}
+		this.close();
+		return todos;
+	}
+	
 	
 	public void updateToDo(ToDo todo){
 		ContentValues row = getContentValuesFromToDo(todo);
