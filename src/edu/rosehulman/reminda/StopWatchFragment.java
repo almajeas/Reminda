@@ -25,11 +25,7 @@ public class StopWatchFragment extends Fragment implements OnClickListener {
 		public void run(){
 			mTime = SystemClock.uptimeMillis() - mStartTime;
 			mTotalTime = mTimeSwap + mTime;
-			int seconds = (int) (mTotalTime/1000);
-			int minutes = seconds / 60;
-			seconds = seconds % 60;
-			int milliseconds = (int) (mTotalTime %1000);
-			mTimeTextView.setText(String.format("%02d:%02d:%03d",minutes,seconds,milliseconds ));
+			timeDisplay();
 			mHandler.postDelayed(this, 0);
 		}
 	};
@@ -57,27 +53,36 @@ public class StopWatchFragment extends Fragment implements OnClickListener {
 				mStartTime = SystemClock.uptimeMillis();
 				mState = STATE.RUNNING;
 				mResetButton.setEnabled(true);
-//				Log.d(RemindaActivity.TAG, "In if. state is: "+mState +" ")
 				mStartButton.setText(getResources().getString(R.string.pause));
 				mHandler.postDelayed(updateTimer, 0);
-			}else if(mState == STATE.RUNNING)
+			}else if(mState == STATE.RUNNING){
 				mState = STATE.PAUSED;
 				mStartButton.setText(getString(R.string.start));
-				mTimeSwap += mTotalTime;
+				mTimeSwap = mTotalTime;
 				mHandler.removeCallbacks(updateTimer);
+			}
 			break;
 			
 		case R.id.resetButton:
 			mState = STATE.FRESH;
+			mHandler.removeCallbacks(updateTimer);
 			mResetButton.setEnabled(false);
 			mStartButton.setText(getString(R.string.start));
 			mTime = 0;
 			mStartTime = 0;
 			mTotalTime = 0;
 			mTimeSwap = 0;
-			mHandler.removeCallbacks(updateTimer);
+			timeDisplay();
 			break;
 		}
 		
+	}
+	
+	private void timeDisplay() {
+		int seconds = (int) (mTotalTime/1000);
+		int minutes = seconds / 60;
+		seconds = seconds % 60;
+		int milliseconds = (int) (mTotalTime %1000);
+		mTimeTextView.setText(String.format("%02d:%02d:%03d",minutes,seconds,milliseconds ));
 	}
 }
