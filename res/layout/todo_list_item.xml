@@ -11,17 +11,14 @@
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:textSize="22sp"
-		android:paddingLeft="10dp"
-		android:paddingBottom="5dp"
-		android:paddingTop="5dp"></TextView>
+		android:layout_gravity="center"></TextView>
 	<TextView
 		android:text="@string/todo_message"
 		android:id="@+id/todo_message"
 		android:gravity="center"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:textSize="22sp"
-		android:paddingRight="10dp"></TextView>
+		android:textSize="22sp"></TextView>
 	
 	<TextView
 		android:text="@string/todo_date"
@@ -29,8 +26,7 @@
 		android:gravity="center"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:textSize="22sp"
-		android:paddingRight="10dp"></TextView>
+		android:textSize="22sp"></TextView>
 	
 	<TextView
 		android:text="@string/todo_time"
@@ -38,6 +34,5 @@
 		android:gravity="center"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:textSize="22sp"
-		android:paddingRight="10dp"></TextView>
+		android:textSize="22sp"></TextView>
 </LinearLayout>
