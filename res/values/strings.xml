@@ -12,6 +12,7 @@
     <string name="todo_time">Time</string>
     <string name="name">Name</string>
     <string name="message">Message</string>
+    <string name="notification_message">Notification Message</string>
     <string name="create_todo">Create ToDo</string>
     <string name="create">Create</string>
     <string name="cancel">Cancel</string>
