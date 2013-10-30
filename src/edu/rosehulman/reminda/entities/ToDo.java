@@ -2,10 +2,12 @@ package edu.rosehulman.reminda.entities;
 
 import java.sql.Time;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import android.text.format.DateFormat;
+import org.joda.time.Duration;
+
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 
@@ -15,12 +17,17 @@ public class ToDo {
 	private String mMessage;
 	private long mDate; // days since jan1 1970
 	private long mTime; // min since midnight
+	private ArrayList<Duration> durations;
 
 	public ToDo(String title, String message, long date, long time) {
 		mTitle = title;
 		mMessage = message;
 		mDate = date;
 		mTime = time;
+	}
+	public ToDo(String title, String message, long date, long time, ArrayList<Duration> durations) {
+		this(title, message, date, time);
+		this.durations = durations;
 	}
 
 	public ToDo(String title, String message, DatePicker date, TimePicker time) {
@@ -30,6 +37,7 @@ public class ToDo {
 	}
 
 	public ToDo() {
+		durations = new ArrayList<Duration>();
 		// TODO Auto-generated constructor stub
 	}
 
@@ -91,6 +99,14 @@ public class ToDo {
 
 	public void setTime(long mTime) {
 		this.mTime = mTime;
+	}
+
+	public ArrayList<Duration> getDurations() {
+		return durations;
+	}
+
+	public void setDurations(ArrayList<Duration> durations) {
+		this.durations = durations;
 	}
 
 }

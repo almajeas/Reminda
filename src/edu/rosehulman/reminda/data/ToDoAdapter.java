@@ -10,7 +10,6 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import edu.rosehulman.reminda.R;
-import edu.rosehulman.reminda.R.layout;
 import edu.rosehulman.reminda.entities.ToDo;
 
 public class ToDoAdapter extends BaseAdapter {

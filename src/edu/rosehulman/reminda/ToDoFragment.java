@@ -40,7 +40,7 @@ public class ToDoFragment extends ListFragment implements OnClickListener {
 		View v = inflater.inflate(R.layout.activity_todo, container, false);
 		mAddToDoButton = (Button) v.findViewById(R.id.addToDoButton);
 		mAddToDoButton.setOnClickListener(this);
-		mToDoDataAdapter = new ToDoDataAdapter(getActivity());
+		mToDoDataAdapter = ToDoDataAdapter.getCurrentInstance(getActivity());
 		mToDoDataAdapter.open();
 		populate();
 		return v;

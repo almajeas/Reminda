@@ -12,6 +12,7 @@ import edu.rosehulman.reminda.entities.ToDo;
 
 public class ToDoDataAdapter {
 	
+	private static ToDoDataAdapter currentInstance;
 	protected SQLiteOpenHelper mOpenHelper;
 	protected SQLiteDatabase mDB;
 
@@ -26,6 +27,11 @@ public class ToDoDataAdapter {
 	
 	public void close(){
 		mDB.close();
+	}
+	public static ToDoDataAdapter getCurrentInstance(Context context){
+		if(ToDoDataAdapter.currentInstance == null)
+			ToDoDataAdapter.currentInstance = new ToDoDataAdapter(context);
+		return ToDoDataAdapter.currentInstance;
 	}
 	
 	private ContentValues getContentValuesFromToDo(ToDo todo){

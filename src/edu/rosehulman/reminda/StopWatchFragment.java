@@ -1,5 +1,7 @@
 package edu.rosehulman.reminda;
 
+import java.util.ArrayList;
+
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
@@ -13,12 +15,14 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import edu.rosehulman.reminda.data.ToDoDataAdapter;
+import edu.rosehulman.reminda.entities.ToDo;
 
 public class StopWatchFragment extends Fragment implements OnClickListener {
 	private enum STATE {
 		FRESH, RUNNING, PAUSED
 	};
-
+	private ToDoDataAdapter mToDoDataAdapter;
 	private STATE mState;
 	private Context mContext;
 	private TextView mTimeTextView;
@@ -58,6 +62,8 @@ public class StopWatchFragment extends Fragment implements OnClickListener {
 		mLapsLayout = (LinearLayout) v.findViewById(R.id.lapsLayout);
 		mLapsScrollView = (ScrollView) v.findViewById(R.id.lapsScrollView);
 		mHandler = new Handler();
+		mToDoDataAdapter = ToDoDataAdapter.getCurrentInstance(getActivity());
+		ArrayList<ToDo> todos = mToDoDataAdapter.getAllToDos();
 		return v;
 	}
 

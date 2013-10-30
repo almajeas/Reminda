@@ -5,9 +5,7 @@ import android.app.ActionBar.Tab;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 /**
@@ -24,7 +22,12 @@ public class RemindaActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.CustomTheme);
+//        getActionBar().setDisplayShowTitleEnabled(false);
+//        requestWindowFeature(Window.FEATURE_NO_TITLE);
         mActionBar = getActionBar();
+        mActionBar.setDisplayShowTitleEnabled(false); 
+        mActionBar.setDisplayShowHomeEnabled(false);
         mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         mActionBar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE);
 
