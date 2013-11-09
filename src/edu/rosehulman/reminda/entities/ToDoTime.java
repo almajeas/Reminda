@@ -5,6 +5,8 @@ public class ToDoTime {
 	private long mId, mToDoId, mDuration;
 	private String mMessage;
 	
+	public ToDoTime(){}
+	
 	public ToDoTime(long id, long toDoId, String message, long duration){
 		this.setId(id);
 		this.setToDoId(toDoId);

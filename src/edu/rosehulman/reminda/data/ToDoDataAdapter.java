@@ -57,6 +57,11 @@ public class ToDoDataAdapter {
 		return mDB.insert(DBHelper.TABLE_NAME, null, row);
 	}
 	
+	public long addToDoTime(ToDoTime toDoTime){
+		ContentValues row = getContentValuesFromToDoTime(toDoTime);
+		return mDB.insert(DBHelper.TODO_TIMES_TABLE, null, row);
+	}
+	
 	public Cursor getToDoCursor(){
 		this.open();
 		String[] projection = new String[] { DBHelper.KEY_ID, DBHelper.KEY_TITLE, DBHelper.KEY_MESSAGE, DBHelper.KEY_DATE, DBHelper.KEY_TIME };
@@ -77,11 +82,54 @@ public class ToDoDataAdapter {
 			todo.setMessage(c.getString(c.getColumnIndexOrThrow(DBHelper.KEY_MESSAGE)));
 			todo.setDate(c.getLong(c.getColumnIndexOrThrow(DBHelper.KEY_DATE)));
 			todo.setTime(c.getLong(c.getColumnIndexOrThrow(DBHelper.KEY_TIME)));
+			todo.setToDoTimes(this.getAllToDoTimesForToDo(todo.getId()));
 			this.close();
 			return todo;
 		}
 		Log.d("REMINDA", "NULL");
 		return null;
+	}
+	
+	public ToDoTime getToDoTime(long id){
+		String [] projection = new String [] { DBHelper.KEY_ID, DBHelper.KEY_TODO_ID, DBHelper.KEY_MESSAGE, DBHelper.KEY_DURATION};
+		String selection = DBHelper.KEY_ID + " = " + id;
+		this.open();
+		Cursor c = mDB.query(DBHelper.TODO_TIMES_TABLE, projection, selection, null, null,
+				null, null, null);
+		if(c != null && c.moveToFirst()){
+			ToDoTime toDoTime = new ToDoTime();
+			toDoTime.setId(c.getLong(c.getColumnIndexOrThrow(DBHelper.KEY_ID)));
+			toDoTime.setToDoId(c.getLong(c.getColumnIndexOrThrow(DBHelper.KEY_TODO_ID)));
+			toDoTime.setMessage(c.getString(c.getColumnIndexOrThrow(DBHelper.KEY_MESSAGE)) );
+			toDoTime.setDuration(c.getLong(c.getColumnIndexOrThrow(DBHelper.KEY_DURATION)));
+			this.close();
+			return toDoTime;
+		}
+		this.close();
+		return null;
+	}
+	
+	public ArrayList<ToDoTime> getAllToDoTimesForToDo(long toDoId){
+		ArrayList<ToDoTime> toDoTimes = new ArrayList<ToDoTime>();
+		String [] projection = new String [] { DBHelper.KEY_ID, DBHelper.KEY_TODO_ID, DBHelper.KEY_MESSAGE, DBHelper.KEY_DURATION};
+		String selection = DBHelper.KEY_TODO_ID + " = " + toDoId;
+		this.open();
+		Cursor c = mDB.query(DBHelper.TODO_TIMES_TABLE, projection, selection, null, null,
+				null, null, null);
+		if(c != null && c.moveToFirst()){
+			int count = c.getCount();
+			for(int i =0; i < count; i++){
+				ToDoTime toDoTime = new ToDoTime();
+				toDoTime.setId(c.getLong(c.getColumnIndexOrThrow(DBHelper.KEY_ID)));
+				toDoTime.setToDoId(c.getLong(c.getColumnIndexOrThrow(DBHelper.KEY_TODO_ID)));
+				toDoTime.setMessage(c.getString(c.getColumnIndexOrThrow(DBHelper.KEY_MESSAGE)) );
+				toDoTime.setDuration(c.getLong(c.getColumnIndexOrThrow(DBHelper.KEY_DURATION)));
+				toDoTimes.add(toDoTime);
+				c.moveToNext();
+			}
+		}
+		this.close();
+		return toDoTimes;
 	}
 	
 	public ArrayList<ToDo> getAllToDos(){
@@ -99,6 +147,7 @@ public class ToDoDataAdapter {
 				todo.setMessage(c.getString(c.getColumnIndexOrThrow(DBHelper.KEY_MESSAGE)));
 				todo.setDate(c.getLong(c.getColumnIndexOrThrow(DBHelper.KEY_DATE)));
 				todo.setTime(c.getLong(c.getColumnIndexOrThrow(DBHelper.KEY_TIME)));
+				todo.setToDoTimes(this.getAllToDoTimesForToDo(todo.getId()));
 				todos.add(todo);
 				c.moveToNext();
 			}
@@ -114,12 +163,23 @@ public class ToDoDataAdapter {
 		mDB.update(DBHelper.TABLE_NAME, row, selection, null);
 	}
 	
+	public void updateToDoTime(ToDoTime toDoTime){
+		ContentValues row = getContentValuesFromToDoTime(toDoTime);
+		String selection = DBHelper.KEY_ID + " = " + toDoTime.getId();
+		mDB.update(DBHelper.TODO_TIMES_TABLE, row, selection, null);
+	}
+	
 	public boolean removeToDo(ToDo todo){
 		return removeToDo(todo.getId());
 	}
 	public boolean removeToDo(long id){
 		String where = DBHelper.KEY_ID + " = " + id;
 		return mDB.delete(DBHelper.TABLE_NAME, where, null) > 0;
+	}
+	
+	public boolean removeToDoTime(long id){
+		String where = DBHelper.KEY_ID + " = " + id;
+		return mDB.delete(DBHelper.TODO_TIMES_TABLE, where, null) > 0;
 	}
 	
 	
