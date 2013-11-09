@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import edu.rosehulman.reminda.entities.ToDo;
+import edu.rosehulman.reminda.entities.ToDoTime;
 
 public class ToDoDataAdapter {
 	
@@ -40,6 +41,14 @@ public class ToDoDataAdapter {
 		row.put(DBHelper.KEY_MESSAGE, todo.getMessage());
 		row.put(DBHelper.KEY_DATE, todo.getDate());
 		row.put(DBHelper.KEY_TIME, todo.getTime());
+		return row;
+	}
+	
+	private ContentValues getContentValuesFromToDoTime(ToDoTime toDoTime){
+		ContentValues row = new ContentValues();
+		row.put(DBHelper.KEY_TODO_ID, toDoTime.getToDoId());
+		row.put(DBHelper.KEY_MESSAGE, toDoTime.getMessage());
+		row.put(DBHelper.KEY_DURATION, toDoTime.getDuration());
 		return row;
 	}
 	
@@ -112,5 +121,7 @@ public class ToDoDataAdapter {
 		String where = DBHelper.KEY_ID + " = " + id;
 		return mDB.delete(DBHelper.TABLE_NAME, where, null) > 0;
 	}
+	
+	
 	
 }

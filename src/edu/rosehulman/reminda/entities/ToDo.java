@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import org.joda.time.Duration;
-
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 
@@ -17,7 +15,7 @@ public class ToDo {
 	private String mMessage;
 	private long mDate; // days since jan1 1970
 	private long mTime; // min since midnight
-	private ArrayList<Duration> durations;
+	private ArrayList<ToDoTime> toDoTimes;
 
 	public ToDo(String title, String message, long date, long time) {
 		mTitle = title;
@@ -25,9 +23,9 @@ public class ToDo {
 		mDate = date;
 		mTime = time;
 	}
-	public ToDo(String title, String message, long date, long time, ArrayList<Duration> durations) {
+	public ToDo(String title, String message, long date, long time, ArrayList<ToDoTime> toDoTimes) {
 		this(title, message, date, time);
-		this.durations = durations;
+		this.toDoTimes = toDoTimes;
 	}
 
 	public ToDo(String title, String message, DatePicker date, TimePicker time) {
@@ -37,7 +35,7 @@ public class ToDo {
 	}
 
 	public ToDo() {
-		durations = new ArrayList<Duration>();
+		toDoTimes = new ArrayList<ToDoTime>();
 		// TODO Auto-generated constructor stub
 	}
 
@@ -101,12 +99,12 @@ public class ToDo {
 		this.mTime = mTime;
 	}
 
-	public ArrayList<Duration> getDurations() {
-		return durations;
+	public ArrayList<ToDoTime> getToDoTimes() {
+		return this.toDoTimes;
 	}
 
-	public void setDurations(ArrayList<Duration> durations) {
-		this.durations = durations;
+	public void setToDoTimes(ArrayList<ToDoTime> toDoTimes) {
+		this.toDoTimes = toDoTimes;
 	}
 
 }
