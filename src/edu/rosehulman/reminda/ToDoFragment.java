@@ -19,6 +19,7 @@ import android.widget.ListView;
 import edu.rosehulman.reminda.data.DBHelper;
 import edu.rosehulman.reminda.data.ToDoAdapter;
 import edu.rosehulman.reminda.data.ToDoDataAdapter;
+import edu.rosehulman.reminda.data.ToDoSimpleAdapter;
 import edu.rosehulman.reminda.entities.ToDo;
 
 public class ToDoFragment extends ListFragment implements OnClickListener {
@@ -49,7 +50,7 @@ public class ToDoFragment extends ListFragment implements OnClickListener {
 	
 	private void populate(){
 		ArrayList<ToDo> todos = mToDoDataAdapter.getAllToDos();
-		ToDoAdapter adapter = new ToDoAdapter(todos, this.getActivity());
+		ToDoAdapter adapter = new ToDoSimpleAdapter(todos, this.getActivity());
 		setListAdapter(adapter);
 	}
 

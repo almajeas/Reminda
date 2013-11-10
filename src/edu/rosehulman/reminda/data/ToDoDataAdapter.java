@@ -58,8 +58,11 @@ public class ToDoDataAdapter {
 	}
 	
 	public long addToDoTime(ToDoTime toDoTime){
+		this.open();
 		ContentValues row = getContentValuesFromToDoTime(toDoTime);
-		return mDB.insert(DBHelper.TODO_TIMES_TABLE, null, row);
+		long id = mDB.insert(DBHelper.TODO_TIMES_TABLE, null, row);
+		this.close();
+		return id;
 	}
 	
 	public Cursor getToDoCursor(){

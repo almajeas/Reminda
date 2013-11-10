@@ -8,20 +8,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-import edu.rosehulman.reminda.R;
 import edu.rosehulman.reminda.entities.ToDo;
 
-public class ToDoAdapter extends BaseAdapter {
-	
-	private ArrayList<ToDo> todos;
-	private Context mContext;
-	private LayoutInflater inflater;
+public abstract class ToDoAdapter extends BaseAdapter {
 
-	public ToDoAdapter(ArrayList<ToDo> todos, Context c){
+	protected ArrayList<ToDo> todos;
+	protected Context mContext;
+	protected LayoutInflater inflater;
+
+	public ToDoAdapter(ArrayList<ToDo> todos, Context c) {
 		this.todos = todos;
 		this.mContext = c;
 	}
+
 	@Override
 	public int getCount() {
 		return todos.size();
@@ -38,31 +37,14 @@ public class ToDoAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		inflater = (LayoutInflater) this.mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		LinearLayout item = (LinearLayout) inflater.inflate(R.layout.todo_list_item, null);
-		int [] titleDepth = {0};
-		int [] messageDepth = {1};
-		int [] dateDepth = {2};
-		int [] timeDepth = {3};
-		TextView tTitle = (TextView) expandTV(item, titleDepth);
-		TextView tMessage = (TextView) expandTV(item, messageDepth);
-		TextView tDate = (TextView) expandTV(item, dateDepth);
-		TextView tTime = (TextView) expandTV(item, timeDepth);	
-		
-		ToDo todo = this.todos.get(position);
-		tTitle.setText(todo.getTitle());
-		tMessage.setText(todo.getMessage());
-		tDate.setText(todo.getStringDate());
-		tTime.setText(todo.getStringTime());
-		
-		return item;
-	}
-	private View expandTV(LinearLayout root, int[] depths) {
+	public abstract View getView(int position, View convertView,
+			ViewGroup parent);
+
+	protected View expandTV(LinearLayout root, int[] depths) {
 		for (int i = 0; i < depths.length - 1; i++) {
 			root = (LinearLayout) root.getChildAt(depths[i]);
 		}
-		return  root.getChildAt(depths[depths.length - 1]);
+		return root.getChildAt(depths[depths.length - 1]);
 	}
 
 }

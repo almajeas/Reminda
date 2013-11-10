@@ -113,7 +113,6 @@ public class EditToDoActivity extends Activity implements OnClickListener {
 	}
 	
 	public TimePicker getTimePicker(ToDo todo){
-		
 		TimePicker time = new TimePicker(this);
 		GregorianCalendar gregCal = new GregorianCalendar();
 		gregCal.setTimeInMillis(todo.getTime());

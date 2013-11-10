@@ -18,6 +18,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import edu.rosehulman.reminda.data.ToDoAdapter;
 import edu.rosehulman.reminda.data.ToDoDataAdapter;
+import edu.rosehulman.reminda.data.ToDoScrollAdapter;
 import edu.rosehulman.reminda.entities.ToDo;
 
 public class StopWatchFragment extends Fragment implements OnClickListener {
@@ -69,7 +70,7 @@ public class StopWatchFragment extends Fragment implements OnClickListener {
 		mToDosSpinner = (Spinner) v.findViewById(R.id.todos_spinner);
 		mToDoDataAdapter = ToDoDataAdapter.getCurrentInstance(getActivity());
 		ArrayList<ToDo> todos = mToDoDataAdapter.getAllToDos();
-		ToDoAdapter adapter = new ToDoAdapter(todos, getActivity());
+		ToDoAdapter adapter = new ToDoScrollAdapter(todos, getActivity());
 		mToDosSpinner.setAdapter(adapter);
 		return v;
 	}
