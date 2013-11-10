@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.net.NetworkInfo.State;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -20,18 +21,19 @@ import edu.rosehulman.reminda.data.ToDoAdapter;
 import edu.rosehulman.reminda.data.ToDoDataAdapter;
 import edu.rosehulman.reminda.data.ToDoScrollAdapter;
 import edu.rosehulman.reminda.entities.ToDo;
+import edu.rosehulman.reminda.entities.ToDoTime;
 
 public class StopWatchFragment extends Fragment implements OnClickListener {
 	private enum STATE {
 		FRESH, RUNNING, PAUSED
 	};
-	
+
 	private Spinner mToDosSpinner;
 	private ToDoDataAdapter mToDoDataAdapter;
 	private STATE mState;
 	private Context mContext;
 	private TextView mTimeTextView;
-	private Button mStartButton, mResetButton, mLapButton;
+	private Button mStartButton, mResetButton, mLapButton, mSaveSprintButton;
 	private LinearLayout mLapsLayout;
 	private ScrollView mLapsScrollView;
 	private long mTime = 0;
@@ -53,7 +55,8 @@ public class StopWatchFragment extends Fragment implements OnClickListener {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View v = inflater.inflate(R.layout.activity_stop_watch, container, false);
+		View v = inflater.inflate(R.layout.activity_stop_watch, container,
+				false);
 		mContext = this.getActivity();
 		mState = STATE.FRESH;
 		mTimeTextView = (TextView) v.findViewById(R.id.timeTextView);
@@ -64,6 +67,9 @@ public class StopWatchFragment extends Fragment implements OnClickListener {
 		mResetButton.setEnabled(false);
 		mLapButton = (Button) v.findViewById(R.id.lapButton);
 		mLapButton.setOnClickListener(this);
+		mSaveSprintButton = (Button) v.findViewById(R.id.saveSprint);
+		mSaveSprintButton.setOnClickListener(this);
+		mSaveSprintButton.setEnabled(false);
 		mLapsLayout = (LinearLayout) v.findViewById(R.id.lapsLayout);
 		mLapsScrollView = (ScrollView) v.findViewById(R.id.lapsScrollView);
 		mHandler = new Handler();
@@ -83,8 +89,10 @@ public class StopWatchFragment extends Fragment implements OnClickListener {
 				mStartTime = SystemClock.uptimeMillis();
 				mState = STATE.RUNNING;
 				mResetButton.setEnabled(true);
+				mToDosSpinner.setEnabled(false);
 				mStartButton.setText(getResources().getString(R.string.pause));
 				mHandler.postDelayed(updateTimer, 0);
+				mSaveSprintButton.setEnabled(true);
 			} else if (mState == STATE.RUNNING) {
 				mState = STATE.PAUSED;
 				mStartButton.setText(getString(R.string.start));
@@ -92,11 +100,20 @@ public class StopWatchFragment extends Fragment implements OnClickListener {
 				mHandler.removeCallbacks(updateTimer);
 			}
 			break;
+		case R.id.saveSprint:
+			if (mState != STATE.FRESH) {
+				addSprint();
+			}else{
+				break;				
+			}
+
 
 		case R.id.resetButton:
 			mState = STATE.FRESH;
+			mToDosSpinner.setEnabled(true);
 			mHandler.removeCallbacks(updateTimer);
 			mResetButton.setEnabled(false);
+			mSaveSprintButton.setEnabled(false);
 			mStartButton.setText(getString(R.string.start));
 			mTime = 0;
 			mStartTime = 0;
@@ -111,8 +128,16 @@ public class StopWatchFragment extends Fragment implements OnClickListener {
 			mResetButton.setEnabled(true);
 			addLap();
 			break;
+
 		}
 
+	}
+
+	private void addSprint() {
+		ToDo selectedDo = (ToDo) mToDosSpinner.getSelectedItem();
+		ToDoTime tdt = new ToDoTime(-1, selectedDo.getId(),
+				"Open Sprint".toString(), mTotalTime / 1000);
+		mToDoDataAdapter.addToDoTime(tdt);
 	}
 
 	private void addLap() {

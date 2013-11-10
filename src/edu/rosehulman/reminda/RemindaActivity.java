@@ -32,17 +32,17 @@ public class RemindaActivity extends Activity {
         mActionBar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE);
 
         mActionBar.addTab(mActionBar.newTab()
-                .setText("StopWatch")
+                .setText("Open Sprint")
                 .setTabListener(new TabListener<StopWatchFragment>(
-                        this, "StopWatch", StopWatchFragment.class)));
+                        this, "Open Sprint", StopWatchFragment.class)));
         mActionBar.addTab(mActionBar.newTab()
                 .setText("ToDo")
                 .setTabListener(new TabListener<ToDoFragment>(
                         this, "ToDo", ToDoFragment.class)));
         mActionBar.addTab(mActionBar.newTab()
-                .setText("Timer")
+                .setText("Sprint")
                 .setTabListener(new TabListener<TimerFragment>(
-                        this, "Timer", TimerFragment.class)));
+                        this, "Sprint", TimerFragment.class)));
       
         if (savedInstanceState != null) {
             mActionBar.setSelectedNavigationItem(savedInstanceState.getInt("tab", 0));

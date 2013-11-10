@@ -73,6 +73,7 @@ public class CreateToDoActivity extends Activity implements OnClickListener {
 		toDoDataAdapter.open();
 		long value = toDoDataAdapter.addToDo(todo);
 		toDoDataAdapter.close();
+		
 		return value > 0;
 	}
 
