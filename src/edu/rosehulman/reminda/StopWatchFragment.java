@@ -14,7 +14,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.Spinner;
 import android.widget.TextView;
+import edu.rosehulman.reminda.data.ToDoAdapter;
 import edu.rosehulman.reminda.data.ToDoDataAdapter;
 import edu.rosehulman.reminda.entities.ToDo;
 
@@ -22,6 +24,8 @@ public class StopWatchFragment extends Fragment implements OnClickListener {
 	private enum STATE {
 		FRESH, RUNNING, PAUSED
 	};
+	
+	private Spinner mToDosSpinner;
 	private ToDoDataAdapter mToDoDataAdapter;
 	private STATE mState;
 	private Context mContext;
@@ -62,8 +66,11 @@ public class StopWatchFragment extends Fragment implements OnClickListener {
 		mLapsLayout = (LinearLayout) v.findViewById(R.id.lapsLayout);
 		mLapsScrollView = (ScrollView) v.findViewById(R.id.lapsScrollView);
 		mHandler = new Handler();
+		mToDosSpinner = (Spinner) v.findViewById(R.id.todos_spinner);
 		mToDoDataAdapter = ToDoDataAdapter.getCurrentInstance(getActivity());
 		ArrayList<ToDo> todos = mToDoDataAdapter.getAllToDos();
+		ToDoAdapter adapter = new ToDoAdapter(todos, getActivity());
+		mToDosSpinner.setAdapter(adapter);
 		return v;
 	}
 

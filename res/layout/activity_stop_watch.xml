@@ -10,15 +10,20 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="30dp"
-        android:textSize="30sp"
         android:text="@string/initial_timer_time"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="30sp" />
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="70dp"
         android:orientation="vertical" >
+
+        <Spinner
+            android:id="@+id/todos_spinner"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -50,7 +55,7 @@
     <ScrollView
         android:id="@+id/lapsScrollView"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content" >
 
         <LinearLayout
             android:id="@+id/lapsLayout"
