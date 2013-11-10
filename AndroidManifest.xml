@@ -26,6 +26,7 @@
         </activity>
         <activity android:name="CreateToDoActivity"></activity>
         <activity android:name="EditToDoActivity"></activity>
+        <activity android:name="ShowToDoActivity"></activity>
     </application>
 
 </manifest>

@@ -29,6 +29,7 @@ public class ToDoFragment extends ListFragment implements OnClickListener {
 	
 	protected static final int REQUEST_CODE_CREATE_TODO = 1;
 	protected static final int REQUEST_CODE_EDIT_TODO = 2;
+	protected static final int REQUEST_CODE_SHOW_TODO = 3;
 	
 	private static final int EDIT = 1;
 	private static final int DELETE = 2;
@@ -79,9 +80,9 @@ public class ToDoFragment extends ListFragment implements OnClickListener {
 	
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
-		Intent editIntent = new Intent(getActivity(), EditToDoActivity.class);
-		editIntent.putExtra(DBHelper.KEY_ID, id);
-		this.startActivityForResult(editIntent, REQUEST_CODE_EDIT_TODO);
+		Intent showIntent = new Intent(getActivity(), ShowToDoActivity.class);
+		showIntent.putExtra(DBHelper.KEY_ID, id);
+		this.startActivityForResult(showIntent, REQUEST_CODE_SHOW_TODO);
 	}
 	
 	 @Override
