@@ -1,18 +1,28 @@
 package edu.rosehulman.reminda;
 
+import java.sql.Time;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
+import edu.rosehulman.reminda.data.DBHelper;
 import edu.rosehulman.reminda.data.ToDoDataAdapter;
 import edu.rosehulman.reminda.entities.ToDo;
 
@@ -22,13 +32,14 @@ public class CreateToDoActivity extends Activity implements OnClickListener {
 	private EditText mMessage;
 	private DatePicker mDate;
 	private TimePicker mTime;
+	private NotificationManager notificationManager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_todo_create);
-
+		
 		mName = (EditText) findViewById(R.id.name_edit_text);
 		mMessage = (EditText) findViewById(R.id.message_edit_text);
 		mDate = (DatePicker) findViewById(R.id.date_picker);
@@ -61,6 +72,17 @@ public class CreateToDoActivity extends Activity implements OnClickListener {
 	private void cancelCreateToDo() {
 		this.finish();
 	}
+	
+	private void startAlarm(ToDo todo) {
+	    AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+	          // notification time
+	            Intent intent = new Intent(this, ReminderService.class);
+	            PendingIntent pendingIntent = PendingIntent.getService(this, 0, intent, 0);
+	            Date d = new Date(todo.getTime());
+	            
+	            alarmManager.set(AlarmManager.RTC, System.currentTimeMillis() + 5000 , pendingIntent);
+	        }
+
 
 	private boolean createToDo() {
 		if (mName.getText().toString().trim().isEmpty()) {
@@ -73,8 +95,11 @@ public class CreateToDoActivity extends Activity implements OnClickListener {
 		toDoDataAdapter.open();
 		long value = toDoDataAdapter.addToDo(todo);
 		toDoDataAdapter.close();
-		
-		return value > 0;
+		if(value > 0){
+			startAlarm(todo);
+			return true;
+		}
+		return false;
 	}
 
 	private void showAlert(String message) {

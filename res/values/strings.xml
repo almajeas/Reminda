@@ -23,4 +23,6 @@
     <string name="reset">Reset</string>
     <string name="lap">Lap</string>
     <string name="saveSprint">Save Sprint</string>
+    <string name="time">Time</string>
+    <string name="counter">Counter</string>
 </resources>

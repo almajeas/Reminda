@@ -53,18 +53,18 @@ public class ShowToDoActivity extends Activity {
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		LinearLayout item = (LinearLayout) inflater.inflate(
 				R.layout.todo_timer_item, null);
-		int[] counterDepth = { 0 };
-		int[] messageDepth = { 1, 0 };
-		int[] timeDepth = { 1, 1 };
+		int[] counterDepth = { 0, 0 };
+		int[] messageDepth = { 0, 1 };
+		int[] timeDepth = { 1 };
 
 		TextView tCounter = (TextView) expandTV(item, counterDepth);
 		TextView tMessage = (TextView) expandTV(item, messageDepth);
 		TextView tTime = (TextView) expandTV(item, timeDepth);
-		tCounter.setText(String.format("%d.", i));
-
+		
+		tCounter.setText(String.format("%d.", i+1));
 		tMessage.setText(times.get(i).getMessage());
-		tTime.setText(times.get(i).getDuration() + "");
-		tTime.setText(times.get(i).getDuration() +"");
+		tTime.setText(timeFormatString(times.get(i).getDuration()));
+		
 		linLay.addView(item);
 		linLay.refreshDrawableState();
 
@@ -75,6 +75,15 @@ public class ShowToDoActivity extends Activity {
 			root = (LinearLayout) root.getChildAt(depths[i]);
 		}
 		return root.getChildAt(depths[depths.length - 1]);
+	}
+	
+	private String timeFormatString(long time) {
+		int seconds = (int) (time);
+		int minutes = (seconds / 60)%60;
+		int hours = seconds / 3600;
+		seconds = seconds % 60;
+		
+		return String.format("%02dhrs %02dmins %02dsecs", hours, minutes, seconds);
 	}
 
 }

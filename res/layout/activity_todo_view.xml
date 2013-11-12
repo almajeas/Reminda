@@ -10,23 +10,25 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:text="@string/todo_title"
+        android:textStyle="bold"
         android:textSize="30sp" />
 
     <TextView
         android:id="@+id/todoViewMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_margin="5dp"
         android:text="@string/todo_message"
-        android:textSize="27sp" />
+        android:textSize="24sp" />
 
     <TextView
         android:id="@+id/todoViewDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_margin="5dp"
         android:text="@string/todo_date"
-        android:textSize="27sp" />
+        android:textStyle="italic"
+        android:textSize="24sp" />
 
     <ScrollView
         android:id="@+id/todoViewScroll"
