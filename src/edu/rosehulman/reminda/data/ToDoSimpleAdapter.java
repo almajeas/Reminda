@@ -24,8 +24,8 @@ public class ToDoSimpleAdapter extends ToDoAdapter {
 		LinearLayout item = (LinearLayout) inflater.inflate(R.layout.todo_list_item, null);
 		int [] titleDepth = {0};
 		int [] messageDepth = {1};
-		int [] dateDepth = {2};
-		int [] timeDepth = {3};
+		int [] dateDepth = {2, 0};
+		int [] timeDepth = {2, 1};
 		TextView tTitle = (TextView) expandTV(item, titleDepth);
 		TextView tMessage = (TextView) expandTV(item, messageDepth);
 		TextView tDate = (TextView) expandTV(item, dateDepth);

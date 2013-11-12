@@ -64,7 +64,7 @@ public class ShowToDoActivity extends Activity {
 
 		tMessage.setText(times.get(i).getMessage());
 		tTime.setText(times.get(i).getDuration() + "");
-		
+		tTime.setText(times.get(i).getDuration() +"");
 		linLay.addView(item);
 		linLay.refreshDrawableState();
 
