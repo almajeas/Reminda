@@ -1,28 +1,23 @@
 package edu.rosehulman.reminda;
 
-import java.sql.Time;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
-import edu.rosehulman.reminda.data.DBHelper;
+import android.widget.Toast;
 import edu.rosehulman.reminda.data.ToDoDataAdapter;
 import edu.rosehulman.reminda.entities.ToDo;
 
@@ -33,13 +28,14 @@ public class CreateToDoActivity extends Activity implements OnClickListener {
 	private DatePicker mDate;
 	private TimePicker mTime;
 	private NotificationManager notificationManager;
+	public static long TODOID;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_todo_create);
-		
+
 		mName = (EditText) findViewById(R.id.name_edit_text);
 		mMessage = (EditText) findViewById(R.id.message_edit_text);
 		mDate = (DatePicker) findViewById(R.id.date_picker);
@@ -72,17 +68,35 @@ public class CreateToDoActivity extends Activity implements OnClickListener {
 	private void cancelCreateToDo() {
 		this.finish();
 	}
-	
-	private void startAlarm(ToDo todo) {
-	    AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-	          // notification time
-	            Intent intent = new Intent(this, ReminderService.class);
-	            PendingIntent pendingIntent = PendingIntent.getService(this, 0, intent, 0);
-	            Date d = new Date(todo.getTime());
-	            
-	            alarmManager.set(AlarmManager.RTC, System.currentTimeMillis() + 5000 , pendingIntent);
-	        }
 
+	public void startAlarm(ToDo todo) {
+
+		Intent intentAlarm = new Intent(this, AlarmReceiver.class);
+		intentAlarm.putExtra("ToDoID", todo.getId());
+		TODOID = todo.getId();
+		// create the object
+		AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+		// set the alarm for particular time
+
+		alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+5000, PendingIntent
+				.getBroadcast(this, 1, intentAlarm,
+						PendingIntent.FLAG_UPDATE_CURRENT));
+		Toast.makeText(this, "Alarm Scheduled", Toast.LENGTH_LONG)
+				.show();
+
+		/*
+		 * AlarmManager alarmManager = (AlarmManager)
+		 * this.getSystemService(Context.ALARM_SERVICE); // notification time
+		 * Intent intent = new Intent(this, ReminderService.class);
+		 * intent.putExtra("ToDoID", todo.getId()); PendingIntent pendingIntent
+		 * = PendingIntent.getService(this, 0, intent, 0); Date d = new
+		 * Date(todo.getTime());
+		 * 
+		 * alarmManager.set(AlarmManager.RTC, System.currentTimeMillis() + 5000
+		 * , pendingIntent);
+		 */
+	}
 
 	private boolean createToDo() {
 		if (mName.getText().toString().trim().isEmpty()) {
@@ -95,7 +109,7 @@ public class CreateToDoActivity extends Activity implements OnClickListener {
 		toDoDataAdapter.open();
 		long value = toDoDataAdapter.addToDo(todo);
 		toDoDataAdapter.close();
-		if(value > 0){
+		if (value > 0) {
 			startAlarm(todo);
 			return true;
 		}
@@ -114,13 +128,14 @@ public class CreateToDoActivity extends Activity implements OnClickListener {
 		AlertDialog alert = builder.create();
 		alert.show();
 	}
-	
-	
-	public DatePicker getDatePicker1(ToDo todo){
+
+	public DatePicker getDatePicker1(ToDo todo) {
 		DatePicker date = new DatePicker(this);
 		GregorianCalendar gregCal = new GregorianCalendar();
 		gregCal.setTimeInMillis(todo.getDate());
-		date.updateDate(gregCal.get(GregorianCalendar.YEAR), gregCal.get(GregorianCalendar.MONTH), gregCal.get(GregorianCalendar.DAY_OF_MONTH));
+		date.updateDate(gregCal.get(GregorianCalendar.YEAR),
+				gregCal.get(GregorianCalendar.MONTH),
+				gregCal.get(GregorianCalendar.DAY_OF_MONTH));
 		return date;
 	}
 

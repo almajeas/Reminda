@@ -1,12 +1,9 @@
 package edu.rosehulman.reminda;
 
 import android.app.IntentService;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.content.Context;
 import android.content.Intent;
+import android.widget.Toast;
 import edu.rosehulman.reminda.data.ToDoDataAdapter;
-import edu.rosehulman.reminda.entities.ToDo;
 
 public class ReminderService extends IntentService {
 
@@ -21,6 +18,8 @@ public class ReminderService extends IntentService {
 
     @Override
       protected void onHandleIntent(Intent intent) {
+    	Toast.makeText(this, "It works", Toast.LENGTH_LONG).show();
+    	/*this.todoId = intent.getIntExtra("ToDoID", 0);
     	ToDo todo = mToDoDataAdapter.getToDo(todoId);
         NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         Notification n  = new Notification.Builder(this)
@@ -29,7 +28,7 @@ public class ReminderService extends IntentService {
         .setSmallIcon(R.drawable.reminda_notification)
         .setAutoCancel(true)
         .build();
-        nm.notify((int) todo.getId(), n);
+        nm.notify((int) todo.getId(), n);*/
     }
 
 }

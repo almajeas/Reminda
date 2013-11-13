@@ -43,9 +43,7 @@ public class ToDo {
 		GregorianCalendar newDate = new GregorianCalendar(date.getYear(),
 				date.getMonth(), date.getDayOfMonth());
 		mDate = newDate.getTimeInMillis();
-		newDate = new GregorianCalendar(0, 0, 0, time.getCurrentHour(),
-				time.getCurrentMinute());
-		mTime = newDate.getTimeInMillis();
+		mTime = ((time.getCurrentHour()*60)+time.getCurrentMinute())*60*1000;
 	}
 	
 	public String getStringDate(){
@@ -54,8 +52,12 @@ public class ToDo {
 		return f.format(date);
 	}
 	
+	public long getAlarmTime(){
+		return mDate+mTime;
+	}
+	
 	public String getStringTime(){
-		Time t = new Time(this.getTime());
+		Time t = new Time(mTime + mDate);
 		return t.toString();
 	}
 
