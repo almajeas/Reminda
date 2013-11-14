@@ -21,7 +21,6 @@ import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 import edu.rosehulman.reminda.data.ToDoAdapter;
 import edu.rosehulman.reminda.data.ToDoDataAdapter;
 import edu.rosehulman.reminda.data.ToDoScrollAdapter;
@@ -112,8 +111,6 @@ public class TimerFragment extends Fragment implements OnClickListener {
 
 				@Override
 				public void onFinish() {
-					Toast.makeText(getActivity(), "Timer is done",
-							Toast.LENGTH_LONG).show();
 					triggerNotification();
 					addSprint();
 					mMessage.setEnabled(true);
@@ -194,8 +191,6 @@ public class TimerFragment extends Fragment implements OnClickListener {
 	@Override
 	public void onPause() {
 		isFragmentAlive = false;
-		Toast.makeText(getActivity(), "Timer view is onPause",
-				Toast.LENGTH_LONG).show();
 		// TODO Auto-generated method stub
 		super.onPause();
 	}

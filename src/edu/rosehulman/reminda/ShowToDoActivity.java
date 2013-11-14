@@ -19,6 +19,7 @@ public class ShowToDoActivity extends Activity {
 	private TextView title;
 	private TextView message;
 	private TextView date;
+	private TextView mTotalTime;
 	private ToDo todo;
 	private ArrayList<ToDoTime> times = new ArrayList<ToDoTime>();
 	private LinearLayout linLay;
@@ -38,10 +39,21 @@ public class ShowToDoActivity extends Activity {
 		title.setText(todo.getTitle());
 		message.setText(todo.getMessage());
 		date.setText(todo.getStringDate() + " " + todo.getStringTime());
+		mTotalTime = (TextView) findViewById(R.id.todoTotalTime);
+		mTotalTime.setText(getTotalTime());
 		times = todo.getToDoTimes();
 		for (int i = 0; i < times.size(); i++) {
 			addTimes(i);
 		}
+	}
+
+	private CharSequence getTotalTime() {
+		int t = 0;
+		for(int i =0; i < todo.getToDoTimes().size(); i++){
+			t += todo.getToDoTimes().get(i).getDuration();
+		}
+		String s = String.format("Total time worked: %s", timeFormatString(t));
+		return s;
 	}
 
 	private void addTimes(int i) {

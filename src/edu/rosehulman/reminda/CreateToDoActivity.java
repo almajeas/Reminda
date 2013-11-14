@@ -79,7 +79,6 @@ public class CreateToDoActivity extends Activity implements OnClickListener {
 				intentAlarm, PendingIntent.FLAG_UPDATE_CURRENT);
 
 		alarmManager.set(AlarmManager.RTC_WAKEUP, todo.getAlarmTime(), p);
-		Toast.makeText(this, "Alarm Scheduled" + "", Toast.LENGTH_LONG).show();
 	}
 
 	private boolean createToDo() {
