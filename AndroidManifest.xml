@@ -4,33 +4,39 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
-    
     <uses-sdk
         android:minSdkVersion="16"
         android:targetSdkVersion="19" />
-    <uses-permission android:name="android.permission.VIBRATE"/>
-    <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>
+
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@android:style/Theme.Holo.NoActionBar" >
-        <receiver android:process=":remote" android:name="AlarmReceiver"></receiver>
+        <receiver
+            android:name="edu.rosehulman.reminda.AlarmReceiver"
+            android:process=":remote" >
+        </receiver>
+
         <activity
             android:name="edu.rosehulman.reminda.RemindaActivity"
-            android:label="" 
-            android:theme="@android:style/Theme.Holo.NoActionBar">
+            android:label=""
+            android:theme="@android:style/Theme.Holo.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="CreateToDoActivity"></activity>
-        <activity android:name="EditToDoActivity"></activity>
-        <activity android:name="ShowToDoActivity"></activity>
+        <activity android:name="CreateToDoActivity" >
+        </activity>
+        <activity android:name="EditToDoActivity" >
+        </activity>
+        <activity android:name="ShowToDoActivity" >
+        </activity>
     </application>
-    
 
 </manifest>

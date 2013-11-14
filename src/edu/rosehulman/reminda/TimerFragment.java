@@ -153,10 +153,11 @@ public class TimerFragment extends Fragment implements OnClickListener {
 		Notification.Builder mBuilder = new Notification.Builder(getActivity())
 				.setSmallIcon(R.drawable.reminda_notification)
 				.setContentTitle("Reminda Timer")
+				.setAutoCancel(true)
 				.setContentText(
 						mMessage.getText().toString() + "\n"
 								+ mTimeText.getText().toString())
-				.setVibrate(new long[] { 100, 100, 100, 100 });
+				.setVibrate(new long[] { 100, 300, 100, 300 });
 		// Creates an explicit intent for an Activity in your app
 		Intent resultIntent = new Intent(mContext, RemindaActivity.class);
 

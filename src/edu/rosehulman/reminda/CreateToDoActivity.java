@@ -18,6 +18,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
+import edu.rosehulman.reminda.data.DBHelper;
 import edu.rosehulman.reminda.data.ToDoDataAdapter;
 import edu.rosehulman.reminda.entities.ToDo;
 
@@ -28,7 +29,6 @@ public class CreateToDoActivity extends Activity implements OnClickListener {
 	private DatePicker mDate;
 	private TimePicker mTime;
 	private NotificationManager notificationManager;
-	public static long TODOID;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -72,30 +72,20 @@ public class CreateToDoActivity extends Activity implements OnClickListener {
 	public void startAlarm(ToDo todo) {
 
 		Intent intentAlarm = new Intent(this, AlarmReceiver.class);
-		intentAlarm.putExtra("ToDoID", todo.getId());
-		TODOID = todo.getId();
-		// create the object
+		intentAlarm.putExtra(DBHelper.KEY_TODO_ID,todo.getId());
+		
 		AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
 		// set the alarm for particular time
-
-		alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+5000, PendingIntent
-				.getBroadcast(this, 1, intentAlarm,
-						PendingIntent.FLAG_UPDATE_CURRENT));
-		Toast.makeText(this, "Alarm Scheduled", Toast.LENGTH_LONG)
+		PendingIntent p = PendingIntent
+				.getBroadcast(this, (int)todo.getId(), intentAlarm,
+						PendingIntent.FLAG_UPDATE_CURRENT);
+		
+		
+		alarmManager.set(AlarmManager.RTC_WAKEUP,todo.getAlarmTime() ,p );
+		Toast.makeText(this, "Alarm Scheduled"
+				+ "", Toast.LENGTH_LONG)
 				.show();
-
-		/*
-		 * AlarmManager alarmManager = (AlarmManager)
-		 * this.getSystemService(Context.ALARM_SERVICE); // notification time
-		 * Intent intent = new Intent(this, ReminderService.class);
-		 * intent.putExtra("ToDoID", todo.getId()); PendingIntent pendingIntent
-		 * = PendingIntent.getService(this, 0, intent, 0); Date d = new
-		 * Date(todo.getTime());
-		 * 
-		 * alarmManager.set(AlarmManager.RTC, System.currentTimeMillis() + 5000
-		 * , pendingIntent);
-		 */
 	}
 
 	private boolean createToDo() {
@@ -110,6 +100,7 @@ public class CreateToDoActivity extends Activity implements OnClickListener {
 		long value = toDoDataAdapter.addToDo(todo);
 		toDoDataAdapter.close();
 		if (value > 0) {
+			todo.setId(value);
 			startAlarm(todo);
 			return true;
 		}
