@@ -50,7 +50,7 @@ public class ShowToDoActivity extends Activity {
 	private CharSequence getTotalTime() {
 		int t = 0;
 		for(int i =0; i < todo.getToDoTimes().size(); i++){
-			t += todo.getToDoTimes().get(i).getDuration();
+			t += (todo.getToDoTimes().get(i).getDuration()/1000);
 		}
 		String s = String.format("Total time worked: %s", timeFormatString(t));
 		return s;
