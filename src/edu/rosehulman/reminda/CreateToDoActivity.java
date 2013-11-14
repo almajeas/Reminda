@@ -16,7 +16,6 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
-import android.widget.Toast;
 import edu.rosehulman.reminda.data.DBHelper;
 import edu.rosehulman.reminda.data.ToDoDataAdapter;
 import edu.rosehulman.reminda.entities.ToDo;

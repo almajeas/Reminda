@@ -50,7 +50,7 @@ public class ShowToDoActivity extends Activity {
 	private CharSequence getTotalTime() {
 		int t = 0;
 		for(int i =0; i < todo.getToDoTimes().size(); i++){
-			t += (todo.getToDoTimes().get(i).getDuration()/1000);
+			t += (todo.getToDoTimes().get(i).getDuration());
 		}
 		String s = String.format("Total time worked: %s", timeFormatString(t));
 		return s;
@@ -85,8 +85,8 @@ public class ShowToDoActivity extends Activity {
 		return root.getChildAt(depths[depths.length - 1]);
 	}
 
-	private String timeFormatString(long time) {
-		int seconds = (int) (time);
+	private String timeFormatString(long timeInMillis) {
+		int seconds = (int) (timeInMillis/1000);
 		int minutes = (seconds / 60) % 60;
 		int hours = seconds / 3600;
 		seconds = seconds % 60;

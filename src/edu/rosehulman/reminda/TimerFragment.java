@@ -139,7 +139,7 @@ public class TimerFragment extends Fragment implements OnClickListener {
 	private void addSprint() {
 		ToDo selectedDo = (ToDo) mToDosSpinner.getSelectedItem();
 		ToDoTime tdt = new ToDoTime(-1, selectedDo.getId(), mMessage.getText()
-				.toString(), getSpentTimeinSeconds());
+				.toString(), getSpentTimeinMillis());
 		mToDoDataAdapter.addToDoTime(tdt);
 	}
 
@@ -210,8 +210,8 @@ public class TimerFragment extends Fragment implements OnClickListener {
 
 	}
 
-	private long getSpentTimeinSeconds() {
-		return (mTimeStart - mTimeLeft)/1000;
+	private long getSpentTimeinMillis() {
+		return (mTimeStart - mTimeLeft);
 	}
 
 }

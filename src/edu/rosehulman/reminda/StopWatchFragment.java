@@ -134,7 +134,7 @@ public class StopWatchFragment extends Fragment implements OnClickListener {
 	private void addSprint() {
 		ToDo selectedDo = (ToDo) mToDosSpinner.getSelectedItem();
 		ToDoTime tdt = new ToDoTime(-1, selectedDo.getId(),
-				"Open Sprint".toString(), mTotalTime / 1000);
+				"Open Sprint".toString(), mTotalTime);
 		mToDoDataAdapter.addToDoTime(tdt);
 	}
 
