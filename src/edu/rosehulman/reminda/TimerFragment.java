@@ -2,11 +2,6 @@ package edu.rosehulman.reminda;
 
 import java.util.ArrayList;
 
-import edu.rosehulman.reminda.data.ToDoAdapter;
-import edu.rosehulman.reminda.data.ToDoDataAdapter;
-import edu.rosehulman.reminda.data.ToDoScrollAdapter;
-import edu.rosehulman.reminda.entities.ToDo;
-import edu.rosehulman.reminda.entities.ToDoTime;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.Notification;
@@ -27,6 +22,11 @@ import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import edu.rosehulman.reminda.data.ToDoAdapter;
+import edu.rosehulman.reminda.data.ToDoDataAdapter;
+import edu.rosehulman.reminda.data.ToDoScrollAdapter;
+import edu.rosehulman.reminda.entities.ToDo;
+import edu.rosehulman.reminda.entities.ToDoTime;
 
 public class TimerFragment extends Fragment implements OnClickListener {
 	private Context mContext;
@@ -123,7 +123,6 @@ public class TimerFragment extends Fragment implements OnClickListener {
 
 				}
 
-				
 			};
 			cdt.start();
 			mMessage.setEnabled(false);
@@ -149,6 +148,7 @@ public class TimerFragment extends Fragment implements OnClickListener {
 				.toString(), getSpentTimeinSeconds());
 		mToDoDataAdapter.addToDoTime(tdt);
 	}
+
 	private void triggerNotification() {
 		Notification.Builder mBuilder = new Notification.Builder(getActivity())
 				.setSmallIcon(R.drawable.reminda_notification)
@@ -158,23 +158,14 @@ public class TimerFragment extends Fragment implements OnClickListener {
 						mMessage.getText().toString() + "\n"
 								+ mTimeText.getText().toString())
 				.setVibrate(new long[] { 100, 300, 100, 300 });
-		// Creates an explicit intent for an Activity in your app
-		Intent resultIntent = new Intent(mContext, RemindaActivity.class);
 
-		// The stack builder object will contain an artificial back stack for
-		// the
-		// started Activity.
-		// This ensures that navigating backward from the Activity leads out of
-		// your application to the Home screen.
+		Intent resultIntent = new Intent(mContext, RemindaActivity.class);
 		TaskStackBuilder stackBuilder = TaskStackBuilder.create(mContext);
-		// Adds the back stack for the Intent (but not the Intent itself)
 		stackBuilder.addParentStack(RemindaActivity.class);
-		// Adds the Intent that starts the Activity to the top of the stack
 		stackBuilder.addNextIntent(resultIntent);
 		PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0,
 				PendingIntent.FLAG_UPDATE_CURRENT);
 		mBuilder.setContentIntent(resultPendingIntent);
-		// mId allows you to update the notification later on.
 		mNotificationManager.notify(mNotificationId, mBuilder.build());
 	}
 

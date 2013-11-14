@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import android.app.Fragment;
 import android.content.Context;
-import android.net.NetworkInfo.State;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -103,10 +102,9 @@ public class StopWatchFragment extends Fragment implements OnClickListener {
 		case R.id.saveSprint:
 			if (mState != STATE.FRESH) {
 				addSprint();
-			}else{
-				break;				
+			} else {
+				break;
 			}
-
 
 		case R.id.resetButton:
 			mState = STATE.FRESH;

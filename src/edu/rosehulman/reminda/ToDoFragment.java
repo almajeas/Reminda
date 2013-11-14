@@ -2,7 +2,10 @@ package edu.rosehulman.reminda;
 
 import java.util.ArrayList;
 
+import android.app.AlarmManager;
 import android.app.ListFragment;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,15 +30,14 @@ public class ToDoFragment extends ListFragment implements OnClickListener {
 	private Button mAddToDoButton;
 
 	private ToDoDataAdapter mToDoDataAdapter;
-	
+
 	protected static final int REQUEST_CODE_CREATE_TODO = 1;
 	protected static final int REQUEST_CODE_EDIT_TODO = 2;
 	protected static final int REQUEST_CODE_SHOW_TODO = 3;
-	
+
 	private static final int EDIT = 1;
 	private static final int DELETE = 2;
-	
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -47,8 +49,8 @@ public class ToDoFragment extends ListFragment implements OnClickListener {
 		populate();
 		return v;
 	}
-	
-	private void populate(){
+
+	private void populate() {
 		ArrayList<ToDo> todos = mToDoDataAdapter.getAllToDos();
 		ToDoAdapter adapter = new ToDoSimpleAdapter(todos, this.getActivity());
 		setListAdapter(adapter);
@@ -60,16 +62,15 @@ public class ToDoFragment extends ListFragment implements OnClickListener {
 		registerForContextMenu(getListView());
 	}
 
-
-
 	@Override
 	public void onClick(View v) {
 		if (mAddToDoButton.getId() == v.getId()) {
-			Intent createToDo = new Intent(getActivity(), CreateToDoActivity.class);
+			Intent createToDo = new Intent(getActivity(),
+					CreateToDoActivity.class);
 			this.startActivityForResult(createToDo, REQUEST_CODE_CREATE_TODO);
 		}
 	}
-	
+
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
@@ -78,24 +79,24 @@ public class ToDoFragment extends ListFragment implements OnClickListener {
 		menu.add(0, DELETE, 0, "Delete");
 		menu.add(0, EDIT, 0, "Edit");
 	}
-	
+
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		Intent showIntent = new Intent(getActivity(), ShowToDoActivity.class);
 		showIntent.putExtra(DBHelper.KEY_ID, id);
 		this.startActivityForResult(showIntent, REQUEST_CODE_SHOW_TODO);
 	}
-	
-	 @Override
-		public void onActivityResult(int requestCode, int resultCode, Intent data) {
-			// Request code will tell you which activity is returning with a result
-			Log.d(RemindaActivity.TAG, "onResult is called");
-//			Cursor c = mToDoDataAdapter.getToDoCursor();
-//			mCursorAdapter.changeCursor(c);
-			populate();
-	    	
-		}
-	
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// Request code will tell you which activity is returning with a result
+		Log.d(RemindaActivity.TAG, "onResult is called");
+		// Cursor c = mToDoDataAdapter.getToDoCursor();
+		// mCursorAdapter.changeCursor(c);
+		populate();
+
+	}
+
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
@@ -106,17 +107,34 @@ public class ToDoFragment extends ListFragment implements OnClickListener {
 		Log.d(RemindaActivity.TAG, "selected Item pos: " + pos);
 		if (item.getItemId() == DELETE) {
 			mToDoDataAdapter.open();
-			mToDoDataAdapter.removeToDo(id);
+
+			removeToDo(id);
 			mToDoDataAdapter.close();
-			
-		}else if(item.getItemId() == EDIT){
-			Intent editIntent = new Intent(getActivity(), EditToDoActivity.class);
+
+		} else if (item.getItemId() == EDIT) {
+			Intent editIntent = new Intent(getActivity(),
+					EditToDoActivity.class);
 			editIntent.putExtra(DBHelper.KEY_ID, id);
-			this.startActivityForResult(editIntent, REQUEST_CODE_EDIT_TODO);	
+			this.startActivityForResult(editIntent, REQUEST_CODE_EDIT_TODO);
 		}
 		populate();
 		return super.onContextItemSelected(item);
 	}
-	
+
+	private void removeToDo(long id) {
+		Intent intentAlarm = new Intent(getActivity(), AlarmReceiver.class);
+		intentAlarm.putExtra(DBHelper.KEY_TODO_ID, id);
+
+		AlarmManager alarmManager = (AlarmManager) getActivity()
+				.getSystemService(Context.ALARM_SERVICE);
+
+		// set the alarm for particular time
+		PendingIntent p = PendingIntent.getBroadcast(getActivity(), (int) id,
+				intentAlarm, PendingIntent.FLAG_CANCEL_CURRENT);
+
+		alarmManager.cancel(p);
+
+		mToDoDataAdapter.removeToDo(id);
+	}
 
 }

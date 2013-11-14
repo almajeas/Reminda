@@ -7,9 +7,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import edu.rosehulman.reminda.data.DBHelper;
 import edu.rosehulman.reminda.data.ToDoDataAdapter;
@@ -21,7 +19,6 @@ public class ShowToDoActivity extends Activity {
 	private TextView title;
 	private TextView message;
 	private TextView date;
-	private ScrollView scrollTimes;
 	private ToDo todo;
 	private ArrayList<ToDoTime> times = new ArrayList<ToDoTime>();
 	private LinearLayout linLay;
@@ -34,8 +31,7 @@ public class ShowToDoActivity extends Activity {
 		ToDoDataAdapter adapter = ToDoDataAdapter.getCurrentInstance(this);
 		linLay = (LinearLayout) findViewById(R.id.todoViewScrollLinLay);
 		adapter.open();
-		todo = adapter.getToDo(getIntent().getLongExtra(DBHelper.KEY_ID,
-				-1));
+		todo = adapter.getToDo(getIntent().getLongExtra(DBHelper.KEY_ID, -1));
 		title = (TextView) findViewById(R.id.todoViewTitle);
 		message = (TextView) findViewById(R.id.todoViewMessage);
 		date = (TextView) findViewById(R.id.todoViewDate);
@@ -60,11 +56,11 @@ public class ShowToDoActivity extends Activity {
 		TextView tCounter = (TextView) expandTV(item, counterDepth);
 		TextView tMessage = (TextView) expandTV(item, messageDepth);
 		TextView tTime = (TextView) expandTV(item, timeDepth);
-		
-		tCounter.setText(String.format("%d.", i+1));
+
+		tCounter.setText(String.format("%d.", i + 1));
 		tMessage.setText(times.get(i).getMessage());
 		tTime.setText(timeFormatString(times.get(i).getDuration()));
-		
+
 		linLay.addView(item);
 		linLay.refreshDrawableState();
 
@@ -76,14 +72,15 @@ public class ShowToDoActivity extends Activity {
 		}
 		return root.getChildAt(depths[depths.length - 1]);
 	}
-	
+
 	private String timeFormatString(long time) {
 		int seconds = (int) (time);
-		int minutes = (seconds / 60)%60;
+		int minutes = (seconds / 60) % 60;
 		int hours = seconds / 3600;
 		seconds = seconds % 60;
-		
-		return String.format("%02dhrs %02dmins %02dsecs", hours, minutes, seconds);
+
+		return String.format("%02dhrs %02dmins %02dsecs", hours, minutes,
+				seconds);
 	}
 
 }

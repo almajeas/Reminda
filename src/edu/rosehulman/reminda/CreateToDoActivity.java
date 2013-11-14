@@ -5,7 +5,6 @@ import java.util.GregorianCalendar;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -28,7 +27,6 @@ public class CreateToDoActivity extends Activity implements OnClickListener {
 	private EditText mMessage;
 	private DatePicker mDate;
 	private TimePicker mTime;
-	private NotificationManager notificationManager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -69,23 +67,19 @@ public class CreateToDoActivity extends Activity implements OnClickListener {
 		this.finish();
 	}
 
-	public void startAlarm(ToDo todo) {
+	private void startAlarm(ToDo todo) {
 
 		Intent intentAlarm = new Intent(this, AlarmReceiver.class);
-		intentAlarm.putExtra(DBHelper.KEY_TODO_ID,todo.getId());
-		
+		intentAlarm.putExtra(DBHelper.KEY_TODO_ID, todo.getId());
+
 		AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
 		// set the alarm for particular time
-		PendingIntent p = PendingIntent
-				.getBroadcast(this, (int)todo.getId(), intentAlarm,
-						PendingIntent.FLAG_UPDATE_CURRENT);
-		
-		
-		alarmManager.set(AlarmManager.RTC_WAKEUP,todo.getAlarmTime() ,p );
-		Toast.makeText(this, "Alarm Scheduled"
-				+ "", Toast.LENGTH_LONG)
-				.show();
+		PendingIntent p = PendingIntent.getBroadcast(this, (int) todo.getId(),
+				intentAlarm, PendingIntent.FLAG_UPDATE_CURRENT);
+
+		alarmManager.set(AlarmManager.RTC_WAKEUP, todo.getAlarmTime(), p);
+		Toast.makeText(this, "Alarm Scheduled" + "", Toast.LENGTH_LONG).show();
 	}
 
 	private boolean createToDo() {
