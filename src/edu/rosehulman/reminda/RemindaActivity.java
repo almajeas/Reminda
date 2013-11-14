@@ -102,8 +102,11 @@ public class RemindaActivity extends Activity {
             }
         }
 
-        public void onTabReselected(Tab tab, FragmentTransaction ft) {
-            Toast.makeText(mActivity, "Reselected!", Toast.LENGTH_SHORT).show();
-        }
+		@Override
+		public void onTabReselected(Tab tab, FragmentTransaction ft) {
+			// nothing needed
+			
+		}
+
     }
 }

@@ -103,9 +103,6 @@ public class TimerFragment extends Fragment implements OnClickListener {
 					String mTimeString = String.format("%02d:%02d:%02d", hours,
 							minutes, seconds);
 					mTimeText.setText(mTimeString);
-					if (!isFragmentAlive) {
-						triggerNotification();
-					}
 
 				}
 
@@ -214,7 +211,7 @@ public class TimerFragment extends Fragment implements OnClickListener {
 	}
 
 	private long getSpentTimeinSeconds() {
-		return mTimeStart - mTimeLeft;
+		return (mTimeStart - mTimeLeft)/1000;
 	}
 
 }
